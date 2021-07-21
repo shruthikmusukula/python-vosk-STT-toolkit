@@ -28,14 +28,13 @@ class VOSK_Extractor:
         else:
             self.model = Model(model)
 
-        self.output = ""
-
         # VOSK General Model Setup
         SetLogLevel(0)
         self.rec = KaldiRecognizer(self.model, self.sampleRate)
-        self.rec.SetWords(True)
+        self.rec.SetWords(True) # Important for SRT file construction
 
         # Initialize SRT Variables
+        self.output = ""
         self.results = []
         self.subs = []
 
@@ -92,6 +91,10 @@ class VOSK_Extractor:
                                  start=datetime.timedelta(seconds=line[0]['start']),
                                  end=datetime.timedelta(seconds=line[-1]['end']))
                 self.subs.append(s)
-        print(srt.compose(self.subs))
+        self.write_to_srt_file()
+
+    def write_to_srt_file(self):
+        file = open("output.srt", "w+")
+        file.write(srt.compose(self.subs))
 
 # Lone Executable Command (If Main Was In Here): python3 extractor.py data/test.mp4
