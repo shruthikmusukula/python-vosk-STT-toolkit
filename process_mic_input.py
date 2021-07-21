@@ -49,7 +49,7 @@ args = parser.parse_args(remaining)
 
 try:
     if args.model is None:
-        args.model = "model"
+        args.model = "data/model" # Add model folder location here
     if not os.path.exists(args.model):
         print ("Please download a model for your language from https://alphacephei.com/vosk/models")
         print ("and unpack as 'model' in the current folder.")
