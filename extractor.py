@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from moviepy.editor import *
+from moviepy.video.tools.subtitles import SubtitlesClip
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 import datetime
@@ -96,5 +98,16 @@ class VOSK_Extractor:
     def write_to_srt_file(self):
         file = open("output.srt", "w+")
         file.write(srt.compose(self.subs))
+
+    def embed_subtitles(self):
+        generator = lambda txt: TextClip(txt, font = 'Lexend', fontsize = 16, color = 'white')
+        subtitles = SubtitlesClip("output.srt", generator)
+
+        video = VideoFileClip(self.dataFile)
+        result = CompositeVideoClip([video, subtitles.set_pos(('center', 'bottom'))])
+
+        result.write_videofile("subtitle_output.mp4", fps = video.fps,
+                                temp_audiofile = "temp-audio.m4a", remove_temp = True, codec = "libx264", audio_codec = "aac")
+
 
 # Lone Executable Command (If Main Was In Here): python3 extractor.py data/test.mp4
