@@ -100,12 +100,18 @@ class VOSK_Extractor:
         file.write(srt.compose(self.subs))
 
     def embed_subtitles(self):
-        generator = lambda txt: TextClip(txt, font = 'Lexend', fontsize = 16, color = 'white')
+        # Subtitle Attritbutes
+        generator = lambda txt: TextClip(txt, font = 'Times New Roman', fontsize = 50, color = 'white')
         subtitles = SubtitlesClip("output.srt", generator)
 
+        # Set original video file and account for video's in landscape mode
         video = VideoFileClip(self.dataFile)
-        result = CompositeVideoClip([video, subtitles.set_pos(('center', 'bottom'))])
+        if video.rotation == 270:
+            video = video.resize(video.size[::-1])
+            video.rotation = 0
 
+        # Embed subtitles into original video and write to a new file
+        result = CompositeVideoClip([video, subtitles.set_pos(('center', 'bottom'))])
         result.write_videofile("subtitle_output.mp4", fps = video.fps,
                                 temp_audiofile = "temp-audio.m4a", remove_temp = True, codec = "libx264", audio_codec = "aac")
 
