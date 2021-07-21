@@ -30,7 +30,7 @@ class VOSK_Extractor:
     def check_for_model(self):
         if not os.path.exists("data/model"):
             print(
-                "Please download the model from https://alphacephei.com/vosk/models and unpack as 'test_name' in your working directory."
+                "Please download the model from https://alphacephei.com/vosk/models and unpack as 'any_name' in your working directory."
                 "This is the training model needed to work with the VOSK API.")
             exit(1)
 
