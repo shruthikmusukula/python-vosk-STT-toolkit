@@ -75,7 +75,7 @@ class WER_Engine:
             h      -> the list of words produced by splitting hypothesis sentence.
             result -> the rate calculated based on edit distance.
         '''
-        print("REF:", end=" ")
+        print("REFERENCE:", end=" ")
         for i in range(len(list)):
             if list[i] == "i":
                 count = 0
@@ -106,7 +106,7 @@ class WER_Engine:
                         count += 1
                 index = i - count
                 print(r[index], end=" "),
-        print("\nHYP:", end=" ")
+        print("\nHYPOTHESIS:", end=" ")
         for i in range(len(list)):
             if list[i] == "d":
                 count = 0
@@ -137,7 +137,7 @@ class WER_Engine:
                         count += 1
                 index = i - count
                 print(h[index], end=" ")
-        print("\nEVA:", end=" ")
+        print("\nEVALUATION:", end=" ")
         for i in range(len(list)):
             if list[i] == "d":
                 count = 0
@@ -175,7 +175,7 @@ class WER_Engine:
                         count += 1
                 index = i - count
                 print(" " * (len(r[index])), end=" ")
-        print("\nWER: " + error_rate)
+        print("\nWord Error Rate: " + error_rate)
         print("Word Accuracy: " + accuracy)
 
 
