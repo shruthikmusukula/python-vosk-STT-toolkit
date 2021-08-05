@@ -75,7 +75,7 @@ class WER_Engine:
             h      -> the list of words produced by splitting hypothesis sentence.
             result -> the rate calculated based on edit distance.
         '''
-        print("REFERENCE:", end=" ")
+        print("REFERENCE: ", end=" ")
         for i in range(len(list)):
             if list[i] == "i":
                 count = 0
