@@ -57,6 +57,8 @@ class VOSK_Extractor:
         # Load string into JSON format and extract resulting text
         output = json.loads(self.output)
         print("Result from [" + self.dataFile + "]: " + output["text"] + "\n")
+        file = open("output/output.txt", "w+")
+        file.write(output["text"])
 
     def process_input_file(self):
         # Call to initialize subprocess with VOSK API
@@ -96,13 +98,13 @@ class VOSK_Extractor:
         self.write_to_srt_file()
 
     def write_to_srt_file(self):
-        file = open("output.srt", "w+")
+        file = open("output/output.srt", "w+")
         file.write(srt.compose(self.subs))
 
     def embed_subtitles(self):
         # Subtitle Attritbutes
         generator = lambda txt: TextClip(txt, font = 'Times New Roman', fontsize = 50, color = 'white')
-        subtitles = SubtitlesClip("output.srt", generator)
+        subtitles = SubtitlesClip("output/output.srt", generator)
 
         # Set original video file and account for video's in landscape mode
         video = VideoFileClip(self.dataFile)
@@ -112,8 +114,5 @@ class VOSK_Extractor:
 
         # Embed subtitles into original video and write to a new file
         result = CompositeVideoClip([video, subtitles.set_pos(('center', 'bottom'))])
-        result.write_videofile("subtitle_output.mp4", fps = video.fps,
+        result.write_videofile("output/edited_output.mp4", fps = video.fps,
                                 temp_audiofile = "temp-audio.m4a", remove_temp = True, codec = "libx264", audio_codec = "aac")
-
-
-# Lone Executable Command (If Main Was In Here): python3 extractor.py data/test.mp4
